@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Images</title>
+        <meta charset="UTF-8"/>
+        <style>
+            #slider {
+                width: 400px;
+                height: 300px;
+                margin: 200px auto 0;
+                border: 1px dashed #ccc;
+
+                background-size: cover;
+            }
+        </style>
+        <script src="React.js"></script>
+        <script>
+            Slider = React.createClass
+
+                _interval_handler: null
+
+                _showNextImage: ->
+                    new_index = if @state.image_index isnt @props.images.length - 1 then @state.image_index + 1 else 0
+                    @setState image_index: new_index
+            
+                _start: -> @_interval_handler = setInterval @_showNextImage, @props.interval
+
+                _pause: -> clearInterval @_interval_handler
+
+                getInitialState: -> image_index: 0
+
+                componentDidMount: -> @_start()
+
+                render: ->
+                    <div    id="slider"
+                            style={{ backgroundImage: 'url(' + @props.images[@state.image_index] + ')' }}
+                            onMouseOver={@_pause}
+                            onMouseOut={@_start}>
+                    </div>
+
+            document.addEventListener 'DOMContentLoaded', ->
+                React.render <Slider images={[ 'imgs/1.jpg', 'imgs/2.jpg', 'imgs/3.jpg' ]} interval={1000}/>,
+                document.getElementById 'app-container'
+        </script>
+    </head>
+    <body>
+        <div id="app-container"></div>
+    </body>
+</html>
