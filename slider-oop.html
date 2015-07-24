@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Images</title>
+        <meta charset="UTF-8"/>
+        <style>
+            #slider {
+                width: 400px;
+                height: 300px;
+                margin: 200px auto 0;
+                border: 1px dashed #ccc;
+
+                background-size: cover;
+            }
+        </style>
+        <script>
+            var Slider = function (placeholder) {
+                // приватні члени класу
+                var image_index         = 0,        // індекс активної картинки
+                    state               = 'empty',  // стан слайдера:
+                                                    //      'empty' - без картинок
+                                                    //      'pause' - з картинками, призупинений
+                                                    //      'start' - з картинками, програється
+                    interval_value      = 2000,     // базове значення інтервалу
+                    images              = [],
+                    interval_handler    = null;
+
+                var showCurrentImage = function () {
+                    placeholder.style.backgroundImage = 'url(' + images[image_index] + ')';
+                };
+
+                var showNextImage = function () {
+                    // зміна індексу
+                    if (image_index === images.length - 1) {    // якщо поточна кратинка є останньою - почати з першої
+                        image_index = 0;
+                    } else {
+                        image_index++;
+                    }
+
+                    showCurrentImage();
+                };
+
+                // публічний API
+                this.setImages = function (new_images) {
+                    images = new_images;
+
+                    if (state === 'empty') {
+                        showCurrentImage(); // показати першу картинку (не запускаючи слайдер)
+
+                        state = 'pause';
+                    }
+                };
+
+                this.setInterval = function (new_interval) {
+                    interval_value = new_interval;
+                };
+
+                this.start = function () {
+                    if (images.length && state === 'pause') {   // слайдер може бути вже запущеним
+                        interval_handler = setInterval(function () {
+                            showNextImage();
+                        }, interval_value);
+
+                        state = 'start';
+                    }
+                };
+
+                this.pause = function () {
+                    if (state === 'start') {    // слайдер може бути вже призупиненим
+                        clearInterval(interval_handler);
+
+                        state = 'pause';
+                    }
+                };
+            };
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var img_el  = document.getElementById('slider'),
+                    slider1 = new Slider(img_el);
+
+                // ініціалізація
+                slider1.setImages([ 'imgs/1.jpg', 'imgs/2.jpg', 'imgs/3.jpg' ]);
+                slider1.setInterval(1000);
+
+                // запуск
+                slider1.start();
+
+                // контроль відтворення
+                img_el.addEventListener('mouseover', function () {
+                    slider1.pause();
+                });
+
+                img_el.addEventListener('mouseout', function () {
+                    slider1.start();
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="slider"></div>
+    </body>
+</html>
