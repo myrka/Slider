@@ -1,23 +1,44 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Images</title>
-  </head>
-  <body>
-   <div id="img" style="width:100px height:10000px">рл</div>
-    <script>
-     var img_urls = ['imgs/1.jpg', 'imgs/2.jpg', 'imgs/3.jpg'];
-     var img_container_el = document.getElementById('img');
-     var showNextImg= function () {
-     var new_img_url = img_urls.shift();
-    img_container_el.style.backgroundImage = 'url(' + new_img_url + ')';
-    img_urls.push(new_img_url);
-     };
-    setInterval(showNextImg, 2000);
-    </script>
+    <head>
+        <title>Images</title>
+        <meta charset="UTF-8"/>
+        <style>
+            #slider {
+                position: relative;
+                width: 400px;
+                height: 300px;
+                margin: 200px auto 0;
+                border: 1px dashed #ccc;
+                background-size: cover;
+            }
+            .btn {
+                position: absolute;
+                top: 75px;
 
+                width: 50px;
+                height: 50px;
 
-  </body>
-</html>
+                font-size: 24px;
+                font-weight: bold;
+                text-align: center;
+                line-height: 50px;
+
+                background-color: #808080;
+            }
+
+            .left-btn {
+                    left: -60px;
+            }
+
+            .right-btn {
+                    right: -60px;
+                }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+        <script src="scripts/common.js"></script>
+      
+    </head>
+    <body>
+        <div id="app-container"></div>
+    </body>
