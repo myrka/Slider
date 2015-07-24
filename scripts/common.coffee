@@ -49,5 +49,5 @@ images = [
 ]
 
 document.addEventListener 'DOMContentLoaded', () ->
-    React.render <Slider images={images} interval={2000} />,
+    React.render <Slider images={images} interval={3000} />,
     document.getElementById 'app-container'

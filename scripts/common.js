@@ -55,7 +55,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     return React.render(React.createElement(Slider, {
       "images": images,
-      "interval": 2000.
+      "interval": 3000.
     }), document.getElementById('app-container'));
   });
 
